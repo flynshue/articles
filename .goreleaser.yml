@@ -1,0 +1,27 @@
+# This is an example .goreleaser.yml file with some sane defaults.
+# Make sure to check the documentation at http://goreleaser.com
+project_name: articles #Name of your project, should match name of github repo
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    id: articles # same as project name
+dockers:
+  - build_flag_templates:
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+      - "--label=org.opencontainers.image.snapshot={{ .IsSnapshot }}"
+    dockerfile: build/Dockerfile
+    goos: linux
+    ids:
+      - articles # same as project name
+    image_templates:
+      # Change this to your container registry
+      - 'public.ecr.aws/flynshue/articles:{{ .Tag }}'
