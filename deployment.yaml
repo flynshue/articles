@@ -33,7 +33,7 @@ metadata:
   name: articles
 spec:
   ports:
-  - name: 8080-5000
+  - name: http
     port: 8080
     protocol: TCP
     targetPort: 5000
@@ -52,7 +52,7 @@ metadata:
 spec:
   host: ""
   port:
-    targetPort: 8080-5000
+    targetPort: http
   tls:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge
