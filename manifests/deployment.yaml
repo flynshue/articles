@@ -19,7 +19,7 @@ spec:
         app: articles
     spec:
       containers:
-      - image: public.ecr.aws/flynshue/articles:v0.1.2
+      - image: public.ecr.aws/flynshue/articles:v0.2.2
         name: articles
         resources: {}
 status: {}
