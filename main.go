@@ -117,6 +117,10 @@ func home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Articles API Homepage")
 }
 
+func health(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "I'm alive, for now\n")
+}
+
 func main() {
 	port := flag.String("port", "5000", "port for the http server")
 	flag.Parse()
@@ -133,6 +137,7 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", home)
+	r.HandleFunc("/healthz", health)
 	r.HandleFunc("/articles", as.getArticles)
 	r.HandleFunc("/article/{id:[0-9]+}", as.getArticleByID).Methods("GET")
 	r.HandleFunc("/article/{id:[0-9]+}", as.deleteArticle).Methods("DELETE")
