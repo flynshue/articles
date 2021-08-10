@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: articles
+  namespace: atlas
+spec:
+  project: atlas
+  source:
+    repoURL: https://github.com/flynshuePersonal/articles.git
+    targetRevision: HEAD
+    path: charts/articles-chart
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: flynshue

@@ -24,3 +24,11 @@ Here's an example of deploying helm release articles to namespace test-flynshue
 helm install -n test-flynshue articles charts/articles
 ```
 
+## Deploying the helm chart using argocd gitops
+```bash
+argocd app create articles \
+--repo https://github.com/flynshuePersonal/articles.git \
+--path charts/articles-chart --dest-namespace flynshue \
+--dest-server https://kubernetes.default.svc
+```
+
