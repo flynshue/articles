@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - 'charts/**'
       - 'manifests/**'
+      - '.github/**'
 jobs:
   build:
     runs-on: ubuntu-latest
