@@ -24,6 +24,11 @@ Here's an example of deploying helm release articles to namespace test-flynshue
 helm install -n test-flynshue articles charts/articles
 ```
 
+To update an existing helm release
+```bash
+helm upgrade -n <namespace> <helm release> charts/articles
+```
+
 ## Deploying the helm chart using argocd gitops
 ```bash
 argocd app create articles \

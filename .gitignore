@@ -4,7 +4,11 @@
 *.dll
 *.so
 *.dylib
+# ignore articles binary
 articles
+
+# except charts/articles, we need this
+!charts/articles
 
 # Test binary, built with `go test -c`
 *.test
