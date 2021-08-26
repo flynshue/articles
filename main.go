@@ -118,7 +118,10 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func health(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "I'm healthy for now...\n")
+	log.Printf("%s %s\n", r.Method, r.URL.Path)
+	response := "I'm healthy for now..."
+	log.Println(response)
+	fmt.Fprintln(w, response)
 }
 
 func main() {
