@@ -24,6 +24,38 @@ Here's an example of deploying helm release articles to namespace test-flynshue
 helm install -n test-flynshue articles charts/articles
 ```
 
+To install with ocp route
+```bash
+helm install -n test-flynshue articles charts/articles \
+--set route.enabled=true
+```
+
+To install with ingress
+<!-- Will probably need to add values file here to make things easier -->
+Create values file for chart. Here's an example using ingress-nginx and cert-manager
+```bash
+vim articles-values.yaml
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+  hosts:
+    - host: articles.apps.seadogslab.com
+      paths:
+        - "/"
+  tls:
+   - secretName: articles-ingress-cert
+     hosts:
+       - articles.apps.seadogslab.com
+```
+
+
+```bash
+helm install -n test-flynshue articles charts/articles \
+--values=articles-values.yaml
+```
+
 To update an existing helm release
 ```bash
 helm upgrade -n <namespace> <helm release> charts/articles
