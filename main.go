@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -16,6 +17,8 @@ var (
 	ErrGeneric = "Something Went Wrong"
 	ErrNotFoud = "Article Not Found"
 )
+
+var greeting = os.Getenv("GREETING")
 
 type Article struct {
 	ID      int    `json:"id"`
@@ -114,7 +117,7 @@ func (as *ArticleStore) updateArticle(w http.ResponseWriter, r *http.Request) {
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Articles API Homepage")
+	fmt.Fprintf(w, "Articles API Homepage\n%s\n", greeting)
 }
 
 func health(w http.ResponseWriter, r *http.Request) {
