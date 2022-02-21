@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -18,7 +17,7 @@ var (
 	ErrNotFoud = "Article Not Found"
 )
 
-var greeting = os.Getenv("GREETING")
+var greeting *string
 
 type Article struct {
 	ID      int    `json:"id"`
@@ -117,7 +116,7 @@ func (as *ArticleStore) updateArticle(w http.ResponseWriter, r *http.Request) {
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Articles API Homepage\n%s\n", greeting)
+	fmt.Fprint(w, "Articles API Homepage")
 }
 
 func health(w http.ResponseWriter, r *http.Request) {
@@ -127,8 +126,17 @@ func health(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, response)
 }
 
+func greet(w http.ResponseWriter, r *http.Request) {
+	if *greeting == "" {
+		fmt.Fprint(w, "<h1>No greeting was set</h1>")
+		return
+	}
+	fmt.Fprintf(w, "<h1>Greeting: %s</h1>", *greeting)
+}
+
 func main() {
 	port := flag.String("port", "5000", "port for the http server")
+	greeting = flag.String("greet", "", "Greeting to be displayed")
 	flag.Parse()
 
 	as := newArticleStore()
@@ -144,6 +152,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", home)
 	r.HandleFunc("/healthz", health)
+	r.HandleFunc("/greet", greet)
 	r.HandleFunc("/articles", as.getArticles)
 	r.HandleFunc("/article/{id:[0-9]+}", as.getArticleByID).Methods("GET")
 	r.HandleFunc("/article/{id:[0-9]+}", as.deleteArticle).Methods("DELETE")
