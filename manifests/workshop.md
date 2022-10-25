@@ -271,7 +271,7 @@ articles-59d7bf5655-jn2vq   1/1       Running   0          12m       172.21.5.21
 ubuntu                      1/1       Running   0          3m52s     172.21.5.219   sbx-app1-5cplr-worker-4q2tt   <none>           <none>
 ```
 
-The app is set to listen port 5000, so we can use that port and one of the pod ip address to talk to one of the replicas from our test ubuntu pod.
+The app is set to listen on port 5000, so we can use that port and one of the pod ip address to talk to one of the replicas from our test ubuntu pod.
 
 Go back to the terminal running the ubuntu test container and send a request to the articles app.
 ```
@@ -334,7 +334,7 @@ $ oc delete pod articles-59d7bf5655-cc759
 pod "articles-59d7bf5655-cc759" deleted
 ```
 
-Since our deployment is set to always have 3 replicas, another articles pod spin up to replace the deleted one
+Since our deployment is set to always have 3 replicas, another articles pod will spin up to replace the deleted one
 
 You'll also notice from the third window that endpoint ip addresses gets updated
 ```bash
@@ -388,7 +388,7 @@ $ curl https://$ARTICLES_APP/articles
 ```
 
 ### Liveness and Readiness
-So far we've seen how we can scale our app in k8s and maintain a set number of replicas using the deployment manifest.  We also saw how can leverage services as load balancer for the pods without manual intervention.
+So far we've seen how we can scale our app in k8s and maintain a set number of replicas using the deployment manifest.  We also saw how we can leverage services as load balancer for the pods without manual intervention.
 
 Next, we'll see how the liveness and readiness can be used to save an engineer from being paged out in the middle of the night.
 
@@ -458,7 +458,7 @@ vim deployment.yaml
 oc apply -f deployment.yaml
 ```
 
-Now that the deployment is happy, let's add readinessProbe, that will fail.
+Now that the deployment is happy, let's add a readinessProbe that will fail.
 ```bash
 vim deployment.yaml
 ...
