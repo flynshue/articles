@@ -3,7 +3,7 @@ This is a hands on workshop to get the Data Infrastructure team started with und
 
 ## Prerequisites 
 * OC CLI tools
-* `demo-app-${USER}` app created in the sbx-app1 cluster
+* `demo-app-${USER}` namespace created in the sbx-app1 cluster using atlas-namespace helm-chart
 
 ## Deploying the Demo App
 First log into sbx-app1 cluster
