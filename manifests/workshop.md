@@ -1,6 +1,13 @@
 # Workshop<!-- omit in toc -->
 This is a hands on workshop to get the Data Infrastructure team started with understanding the basics of OCP.
-
+- [Prerequisites](#prerequisites)
+- [Deploying the Demo App](#deploying-the-demo-app)
+  - [Scaling up more Replicas](#scaling-up-more-replicas)
+  - [Spinning up a test pod and ResourceQuotas](#spinning-up-a-test-pod-and-resourcequotas)
+  - [Communicating with the app](#communicating-with-the-app)
+  - [Liveness and Readiness](#liveness-and-readiness)
+  - [Working with app configuration](#working-with-app-configuration)
+- [Next Steps](#next-steps)
 ## Prerequisites 
 * OC CLI tools
 * `demo-app-${USER}` namespace created in the sbx-app1 cluster using atlas-namespace helm-chart
