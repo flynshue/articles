@@ -252,7 +252,7 @@ root@ubuntu:/#
 ```
 
 We'll need to add some tools to the container
-```bash
+```
 root@ubuntu:/# apt update -y
 
 root@ubuntu:/# apt install wget curl -y
