@@ -130,7 +130,7 @@ services                   1      10
 
 Looking at the resourcequota, we used up all of our limits.cpu.
 
-What are the pods using for resources
+What are the pods using for resources?
 ```bash
 $ oc describe pods
 Containers:
@@ -174,7 +174,7 @@ Container   memory    -    -    100Mi            1Gi            -
 Container   cpu       -    -    100m             1              -
 ```
 
-Pods that have resources defined in their spec will use the resources defined in the limitrange
+Pods that do not have resources defined in their spec will use the resources defined in the limitrange
 
 Let's update the resources on the articles deploy so that we can spin up a test pod.
 ```bash
