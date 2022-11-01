@@ -253,7 +253,7 @@ services                   1       10
 
 We should be able to spin up our test pod now
 ```bash
-$ oc run bitnami-shell --rm -it --image=public.ecr.aws/bitnami/bitnami-shell:latest--command /bin/bash
+$ oc run bitnami-shell --rm -it --image=public.ecr.aws/bitnami/bitnami-shell:latest --command /bin/bash
 If you don't see a command prompt, try pressing enter.
 1001@test:/$ 
 ```
@@ -585,7 +585,7 @@ spec:
 Go back to your terminal that was running the bitnami-shell test pod.  Mine died so the pod was removed and I'll need to create a new pod, but this time I'll keep the pod running in the background.
 
 ```bash
-oc run bitnami-shell --image=public.ecr.aws/bitnami/bitnami-shell:latest--command -- /usr/bin/tail '-f'
+oc run bitnami-shell --image=public.ecr.aws/bitnami/bitnami-shell:latest --command -- /usr/bin/tail '-f'
 ```
 
 Now that it's running the background, I can use `oc rsh` to basically shell into the pod.
