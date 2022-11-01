@@ -106,8 +106,8 @@ Let's spin up another pod in your namespace so test the articles app
 
 **Note: The following command will spin up a single pod, not managed by deployment.  The pod will be removed once you exit out of the terminal**
 ```bash
-$ oc run ubuntu --rm -it --image=public.ecr.aws/lts/ubuntu:latest --command /bin/bash
-Error from server (Forbidden): pods "ubuntu" is forbidden: exceeded quota: resourcequota, requested: limits.cpu=1, used: limits.cpu=3, limited: limits.cpu=3
+$ oc run bitnami-shell --rm -it --image=public.ecr.aws/bitnami/bitnami-shell:latest --command /bin/bash
+Error from server (Forbidden): pods "bitnami-shell" is forbidden: exceeded quota: resourcequota, requested: limits.cpu=1, used: limits.cpu=3, limited: limits.cpu=3
 ```
 
 Looks like we can't spin up another pod due to exceeded quota
@@ -253,16 +253,9 @@ services                   1       10
 
 We should be able to spin up our test pod now
 ```bash
-$ oc run ubuntu --rm -it --image=public.ecr.aws/lts/ubuntu:latest --command /bin/bash
+$ oc run bitnami-shell --rm -it --image=public.ecr.aws/bitnami/bitnami-shell:latest--command /bin/bash
 If you don't see a command prompt, try pressing enter.
-root@ubuntu:/# 
-```
-
-We'll need to add some tools to the container
-```
-root@ubuntu:/# apt update -y
-
-root@ubuntu:/# apt install wget curl -y
+1001@test:/$ 
 ```
 
 ### Communicating with the app
@@ -275,14 +268,14 @@ NAME                        READY     STATUS    RESTARTS   AGE       IP         
 articles-59d7bf5655-cc759   1/1       Running   0          8m23s     172.23.4.94    sbx-app1-5cplr-worker-lx5jt   <none>           <none>
 articles-59d7bf5655-ftf8x   1/1       Running   0          8m23s     172.20.5.124   sbx-app1-5cplr-worker-wplvn   <none>           <none>
 articles-59d7bf5655-jn2vq   1/1       Running   0          12m       172.21.5.216   sbx-app1-5cplr-worker-4q2tt   <none>           <none>
-ubuntu                      1/1       Running   0          3m52s     172.21.5.219   sbx-app1-5cplr-worker-4q2tt   <none>           <none>
+bitnami-shell                      1/1       Running   0          3m52s     172.21.5.219   sbx-app1-5cplr-worker-4q2tt   <none>           <none>
 ```
 
-The app is set to listen on port 5000, so we can use that port and one of the pod ip address to talk to one of the replicas from our test ubuntu pod.
+The app is set to listen on port 5000, so we can use that port and one of the pod ip address to talk to one of the replicas from our test bitnami-shell pod.
 
-Go back to the terminal running the ubuntu test container and send a request to the articles app.
+Go back to the terminal running the bitnami-shell test container and send a request to the articles app.
 ```
-root@ubuntu:/# curl 172.23.4.94:5000/articles
+1001@test:/$ curl 172.23.4.94:5000/articles
 {"articles":[{"id":3,"title":"Article Title 3","desc":"Article Description 3","content":"Article Content 3"},{"id":1,"title":"Article Title 1","desc":"Article Description 1","content":"Article Content 1"},{"id":2,"title":"Article Title 2","desc":"Article Description 2","content":"Article Content 2"}]}
 ```
 
@@ -355,16 +348,16 @@ articles   172.20.5.124:5000,172.21.5.216:5000,172.23.4.95:5000   1h
 Okay so how do we use the service?
 
 
-Go back to your terminal running the ubuntu test pod
+Go back to your terminal running the bitnami-shell test pod
 ```
-root@ubuntu:/# curl articles.demo-app-flynshue.svc.cluster.local:8080/articles
+1001@test:/$ curl articles.demo-app-flynshue.svc.cluster.local:8080/articles
 ```
 
 The service name convention is `SERVICE_NAME.NAMESPACE.svc.cluster.local:PORT`
 
 The `svc.cluster.local` is optional
 ```
-root@ubuntu:/# curl articles.demo-app-flynshue:8080/articles
+1001@test:/$ curl articles.demo-app-flynshue:8080/articles
 ```
 
 Services allow you to talk to pods within the cluster.  We'll need use routes if we want use a client outside of the cluster to communicate with the articles app.
@@ -386,7 +379,7 @@ spec:
 ...
 ```
 
-From another terminal, anything but the terminal running ubuntu test pod
+From another terminal, anything but the terminal running bitnami-shell test pod
 ```bash
 $ ARTICLES_APP=$(oc get route articles -o jsonpath='{.spec.host}')
 
@@ -589,15 +582,15 @@ spec:
 ...
 ```
 
-Go back to your terminal that was running the ubuntu test pod.  Mine died so the pod was removed and I'll need to create a new pod, but this time I'll keep the pod running in the background.
+Go back to your terminal that was running the bitnami-shell test pod.  Mine died so the pod was removed and I'll need to create a new pod, but this time I'll keep the pod running in the background.
 
 ```bash
-oc run ubuntu --image=public.ecr.aws/lts/ubuntu:latest --command -- /usr/bin/tail '-f'
+oc run bitnami-shell --image=public.ecr.aws/bitnami/bitnami-shell:latest--command -- /usr/bin/tail '-f'
 ```
 
 Now that it's running the background, I can use `oc rsh` to basically shell into the pod.
 ```
-root@ubuntu:/# curl articles.demo-app-flynshue:8080 
+1001@test:/$ curl articles.demo-app-flynshue:8080 
 Articles API Homepage
 
 ```
@@ -636,9 +629,9 @@ vim deployment.yaml
 oc apply -f deployment.yaml
 ```
 
-Now rsh into your ubuntu pod and hit the articles home page
+Now rsh into your bitnami-shell pod and hit the articles home page
 ```
-root@ubuntu:/# curl articles.demo-app-flynshue:8080
+1001@test:/$ curl articles.demo-app-flynshue:8080
 Articles API Homepage
 HelloWorld
 ```
