@@ -7,7 +7,7 @@ metadata:
     app: articles
   name: articles
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: articles
@@ -21,7 +21,21 @@ spec:
       containers:
       - image: public.ecr.aws/flynshue/articles:v0.2.2
         name: articles
-        resources: {}
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            cpu: "500m"
+            memory: "500Mi"
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
 status: {}
 ---
 apiVersion: v1

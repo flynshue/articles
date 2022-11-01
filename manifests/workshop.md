@@ -407,7 +407,7 @@ vim deployment.yaml
           limits:
             cpu: "500m"
             memory: "500Mi"
-        liveness:
+        livenessProbe:
           httpGet:
             path: /health
             port: 5000
